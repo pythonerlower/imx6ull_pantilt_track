@@ -1,0 +1,77 @@
+#include "imx6ull-14x14-evk-emmc.dts"
+
+/ {
+	codex-dtb-tag = "ap3216c-irq-enabled";
+
+	/*
+	 * imx6ull-14x14-evk.dts 中 dht11 / ds18b20 均使用 GPIO1_IO01，
+	 * 与 AP3216C INT(AP_INT→GPIO1_IO01) 硬件冲突，会导致引脚被拉成输出或
+	 * 错误电气配置，GPIO 中断永不触发。开发 AP3216C 中断时必须关闭二者。
+	 */
+	dht11 {
+		status = "disabled";
+	};
+
+	ds18b20 {
+		status = "disabled";
+	};
+};
+
+/* AP3216C 中断引脚配置 */
+#include <dt-bindings/interrupt-controller/irq.h>
+
+&iomuxc {
+	imx6ul-evk {
+		/* AP3216C INT引脚 - GPIO1_IO01 */
+		pinctrl_ap3216c: ap3216cgrp {
+			fsl,pins = <
+				/* 配置 GPIO1_IO01 为 GPIO 模式，设置上拉
+				 * 0x4001b0b0 = HYS(1) + PUS(3@100K) + PUE(1) + PKE(1) + ODE(0) + DSE(1) + SPEED(2) + SRE(0)
+				 */
+				MX6UL_PAD_GPIO1_IO01__GPIO1_IO01	0x4001b0b0
+			>;
+		};
+	};
+};
+
+&i2c1 {
+	ap3216c@1e {
+		compatible = "alientek,ap3216c";
+		reg = <0x1e>;
+		
+		/* 引用pinctrl配置 */
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_ap3216c>;
+		
+		/* 下降沿触发（与 rEDTii README / 常用做法一致） */
+		interrupt-parent = <&gpio1>;
+		interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
+	};
+};
+
+&lcdif {
+	display0: display {
+		bits-per-pixel = <16>;
+		bus-width = <24>;
+
+		display-timings {
+			native-mode = <&timing0>;
+			timing0: timing0 {
+			clock-frequency = <9000000>;
+			hactive = <480>;
+			vactive = <272>;
+			hfront-porch = <5>;
+			hback-porch = <40>;
+			hsync-len = <20>;
+			vback-porch = <8>;
+			vfront-porch = <8>;
+			vsync-len = <3>;
+
+			hsync-active = <0>;
+			vsync-active = <0>;
+			de-active = <1>;
+			pixelclk-active = <0>;
+			};
+		};
+	};
+};

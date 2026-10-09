@@ -1,0 +1,31 @@
+/ {
+    mx6hub@0 {
+        compatible = "imx6ull,mx6hub";
+        status = "okay";
+
+        /*
+         * Optional: if a GPIO interrupt source is available, wire it here.
+         * event-gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;
+         */
+        pinctrl-names = "default";
+        pinctrl-0 = <&pinctrl_mx6hub_default>;
+    };
+};
+
+&iomuxc {
+    pinctrl_mx6hub_default: mx6hubgrp {
+        fsl,pins = <
+            /*
+             * Replace with real pad config according to board schematic.
+             * MX6UL_PAD_SNVS_TAMPER1__GPIO5_IO01 0x10B0
+             */
+        >;
+    };
+};
+
+/*
+ * Notes:
+ * 1) Camera node can be OV5640 or OV5649, depending on module actually mounted.
+ * 2) Keep SPI node for icm20608 placeholder even before hardware arrives.
+ */
+

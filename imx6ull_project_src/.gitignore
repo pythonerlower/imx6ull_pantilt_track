@@ -1,0 +1,47 @@
+# ===== 内核模块编译产物 =====
+*.ko
+*.o
+*.mod
+*.mod.c
+Module.symvers
+modules.order
+
+# 设备树二进制（.dts/.dtsi 源码保留，见 kernel/dts_patch 与 dtb_backup/）
+*.dtb
+
+# 主机端 Python 产物
+*.pyc
+__pycache__/
+
+# 备份文件
+*.bak_*
+
+# ===== out/ 是部署脚本的上传输入（生成物）：只保留 .sh，丢弃二进制/驱动/设备树 =====
+out/*
+!out/*.sh
+
+# ===== 板端可执行文件（无扩展名的 ELF 产物，源码 .c 保留）=====
+user/securityd/securityd
+user/audio/audio_play
+user/audio/audio_capture
+user/pantilt_test/pantilt_test
+user/pantilt_daemon/pantilt_daemon
+user/pantilt_daemon/pantilt_daemon_host
+user/pantilt_daemon/check_keepalive
+user/video_link/video_link
+user/video_link/test_ringbuf
+user/video_link/test_proto
+user/hub_monitor/hub_monitor
+user/v4l2_fb_preview/v4l2_fb_preview
+user/sensor_alert_app/sensor_alert_app
+user/pantilt_ctl/pantilt_ctl
+user/ioctl_test_app/ioctl_test_app
+user/ap3216c_input/ap3216c_input_app
+user/icm20608_iio/icm20608_iio_app
+user/baseline/ap3216c_myself/ap3216c_myself_app
+user/baseline/ap3216c_ref/ap3216c_ref_app
+user/baseline/icm20608/icm20608_app
+user/baseline/beep/beep_app
+user/baseline/led/led_app
+user/experiments/icm20608_ref62/icm20608_ref62_app
+user/experiments/icm20608_ref62_b1_swcs/icm20608_ref62_b1_swcs_app

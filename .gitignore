@@ -1,0 +1,10 @@
+# 版权与体积原因不入库：正点原子教程 / NXP 参考手册 / 芯片手册等 PDF
+# 其中【正点原子】I.MX6U嵌入式Linux驱动开发指南V1.81.pdf 为 102MB，超过 GitHub 单文件 100MB 上限
+*.pdf
+
+# 实验运行产物（图像帧、原始采集、日志），说明见 README.md
+logs/
+
+# 系统/编辑器杂项
+Thumbs.db
+.DS_Store
